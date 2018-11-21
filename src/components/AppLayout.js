@@ -70,7 +70,6 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
   },
 });
 
@@ -141,6 +140,7 @@ class AppLayout extends React.Component {
             ))}
           </List>
         </Drawer>
+
         <main className={classes.content}>
           <div className={classes.toolbar} />
           {this.props.children}

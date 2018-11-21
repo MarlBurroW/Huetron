@@ -30,7 +30,8 @@ export function* fetchBridgesSaga() {
 }
 
 export function* fetchBridgesIPsFromMeethueAPISaga() {
-  return yield call(api.fetchBridgesIPFromMeetHueAPI);
+  const bridgesIPs = yield call(api.fetchBridgesIPFromMeetHueAPI);
+  return bridgesIPs;
 }
 
 export function* fetchBridgeAdditionalInfoSaga(bridge) {

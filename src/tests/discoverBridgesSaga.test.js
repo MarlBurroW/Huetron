@@ -13,6 +13,8 @@ import {
 } from '../store/actions/discoverBridgesActions';
 import discoverBridgesReducer from '../store/reducers/discoverBridgesReducer';
 
+expectSaga.DEFAULT_TIMEOUT = 6000; // set it to 500ms
+
 describe('my beverage', () => {
   it('fetchBridges Sagas puts fetchBridgeIPRejectedAction action when Meethue is down', () => {
     nock('https://discovery.meethue.com')

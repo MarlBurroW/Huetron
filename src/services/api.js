@@ -1,8 +1,14 @@
 import wretch from 'wretch';
 import logger from './logger';
 
-const api = wretch().middlewares([]);
-const REQUEST_TIMEOUT = 5000;
+const REQUEST_TIMEOUT = 1;
+const DELAY = 1;
+
+const delayMiddleware = delay => next => (url, opts) => {
+  return new Promise(res => setTimeout(() => res(next(url, opts)), delay));
+};
+
+const api = wretch().middlewares([delayMiddleware(DELAY)]);
 
 export function fetchBridgesIPFromMeetHueAPI() {
   return apiCall('get', 'https://discovery.meethue.com/');
@@ -29,6 +35,7 @@ export function apiCall(method, endpoint, payload) {
     })
     .catch(err => {
       logger.error(`API CALL REQUEST ERROR: ${err}`);
+      return err;
     });
 }
 
