@@ -35,8 +35,9 @@ export function* fetchBridgesIPsFromMeethueAPISaga() {
 
 export function* fetchBridgeAdditionalInfoSaga(bridge) {
   try {
-    const bridgeInfo = yield api.fetchBridgeInfo(bridge);
-    return Object.assign({}, bridgeInfo, bridge);
+    const bridgeInfo = yield call(api.fetchBridgeInfo, bridge);
+    bridgeInfo.internalipaddress = bridge.internalipaddress;
+    return bridgeInfo;
   } catch (e) {
     return null;
   }
