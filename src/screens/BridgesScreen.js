@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { fetchBrdigeIPAction } from '../store/actions/discoverBridgesActions';
+import { fetchBridgeIPAction } from '../store/actions/discoverBridgesActions';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -50,7 +50,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchBridges: () => dispatch(fetchBrdigeIPAction()),
+    fetchBridges: () => dispatch(fetchBridgeIPAction()),
   };
 };
 

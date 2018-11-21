@@ -1,16 +1,16 @@
-import { call, put, all, takeLatest } from 'redux-saga/effects';
+import { call, put, all, takeLatest, take } from 'redux-saga/effects';
 import {
   FETCH_BRIDGE_IP_ADDRESSES,
-  fetchBrdigeIPFulFilledAction,
-  fetchBrdigeIPRejectedAction,
+  fetchBridgeIPFulFilledAction,
+  fetchBridgeIPRejectedAction,
 } from '../store/actions/discoverBridgesActions';
-import { fetchBridgesIPFromMeetHueAPI, fetchBridgeInfo } from '../services/api';
+import * as api from '../services/api';
 
-export default function* discoverBridgesSaga() {
-  yield takeLatest(FETCH_BRIDGE_IP_ADDRESSES, fetchBridges);
+export function* discoverBridgesSaga() {
+  yield takeLatest(FETCH_BRIDGE_IP_ADDRESSES, fetchBridgesSaga);
 }
 
-export function* fetchBridges() {
+export function* fetchBridgesSaga() {
   try {
     const bridgesIPs = yield call(fetchBridgesIPsFromMeethueAPISaga);
 
@@ -22,20 +22,20 @@ export function* fetchBridges() {
 
     bridgeInfos = bridgeInfos.filter(bridgeInfo => bridgeInfo !== null);
 
-    yield put(fetchBrdigeIPFulFilledAction(bridgeInfos));
+    yield put(fetchBridgeIPFulFilledAction(bridgeInfos));
   } catch (e) {
-    yield put(fetchBrdigeIPRejectedAction());
+    yield put(fetchBridgeIPRejectedAction());
     return;
   }
 }
 
 export function* fetchBridgesIPsFromMeethueAPISaga() {
-  return yield call(fetchBridgesIPFromMeetHueAPI);
+  return yield call(api.fetchBridgesIPFromMeetHueAPI);
 }
 
 export function* fetchBridgeAdditionalInfoSaga(bridge) {
   try {
-    const bridgeInfo = yield fetchBridgeInfo(bridge);
+    const bridgeInfo = yield api.fetchBridgeInfo(bridge);
     return Object.assign({}, bridgeInfo, bridge);
   } catch (e) {
     return null;
