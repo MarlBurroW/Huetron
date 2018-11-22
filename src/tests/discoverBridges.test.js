@@ -5,11 +5,7 @@ import { FlushThunks } from 'redux-testkit';
 
 import reducers from '../store/reducers/reducers';
 import * as discoverBridgesSelectors from '../store/selectors/discoverBridgesSelectors';
-import {
-  fetchBridgeIPAction,
-  fetchBridgeIPFulFilledAction,
-  fetchBridgeIPRejectedAction,
-} from '../store/actions/discoverBridgesActions';
+
 import * as discoveredBridgesThunks from '../store/thunks/discoverBridgesThunks';
 import * as api from '../services/api';
 
