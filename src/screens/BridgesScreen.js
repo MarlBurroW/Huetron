@@ -20,7 +20,7 @@ import Button from '@material-ui/core/Button';
 import CheckIcon from '@material-ui/icons/Check';
 import SaveIcon from '@material-ui/icons/Save';
 
-import { discoverBridgesThunk } from '../thunks/discoverBridgesThunks';
+import { discoverBridgesThunk } from '../store/thunks/discoverBridgesThunks';
 
 class DiscoverBridgesScreen extends React.Component {
   componentDidMount() {
@@ -38,7 +38,7 @@ class DiscoverBridgesScreen extends React.Component {
             onClick={this.props.fetchBridges}
           >
             {this.props.fetching ? (
-              <CircularProgress color="accent" size={18} /> // Size 14 works pretty well
+              <CircularProgress color="primary" size={18} /> // Size 14 works pretty well
             ) : (
               'REFRESH'
             )}

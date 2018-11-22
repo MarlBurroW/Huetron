@@ -2,7 +2,7 @@ import {
   fetchBridgeIPAction,
   fetchBridgeIPFulFilledAction,
   fetchBridgeIPRejectedAction,
-} from '../store/actions/discoverBridgesActions';
+} from '../actions/discoverBridgesActions';
 
 export function discoverBridgesThunk() {
   return async function(dispatch, getState, { api }) {

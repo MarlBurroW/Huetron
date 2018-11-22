@@ -10,7 +10,7 @@ import {
   fetchBridgeIPFulFilledAction,
   fetchBridgeIPRejectedAction,
 } from '../store/actions/discoverBridgesActions';
-import * as discoveredBridgesThunks from '../thunks/discoverBridgesThunks';
+import * as discoveredBridgesThunks from '../store/thunks/discoverBridgesThunks';
 import * as api from '../services/api';
 
 describe('Discover bridges Integration', () => {
