@@ -1,7 +1,7 @@
 import wretch from 'wretch';
 import logger from './logger';
 
-const REQUEST_TIMEOUT = 1;
+const REQUEST_TIMEOUT = 1000;
 const DELAY = 1;
 
 const delayMiddleware = delay => next => (url, opts) => {
@@ -35,7 +35,7 @@ export function apiCall(method, endpoint, payload) {
     })
     .catch(err => {
       logger.error(`API CALL REQUEST ERROR: ${err}`);
-      return err;
+      throw err;
     });
 }
 

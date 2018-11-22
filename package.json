@@ -13,7 +13,9 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
     "redux": "^4.0.1",
-    "redux-saga": "^0.16.2",
+    "redux-testkit": "^1.0.6",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "wretch": "^1.4.2"
   },
   "scripts": {
@@ -37,7 +39,6 @@
     "nock": "^10.0.2",
     "prettier": "1.14.3",
     "reactotron-react-js": "^2.1.1",
-    "reactotron-redux": "^2.1.0",
-    "redux-saga-test-plan": "^3.7.0"
+    "reactotron-redux": "^2.1.0"
   }
 }

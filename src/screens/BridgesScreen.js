@@ -19,6 +19,9 @@ import green from '@material-ui/core/colors/green';
 import Button from '@material-ui/core/Button';
 import CheckIcon from '@material-ui/icons/Check';
 import SaveIcon from '@material-ui/icons/Save';
+
+import { discoverBridgesThunk } from '../thunks/discoverBridgesThunks';
+
 class DiscoverBridgesScreen extends React.Component {
   componentDidMount() {
     this.props.fetchBridges();
@@ -73,7 +76,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchBridges: () => dispatch(fetchBridgeIPAction()),
+    fetchBridges: () => dispatch(discoverBridgesThunk()),
   };
 };
 

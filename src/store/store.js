@@ -1,18 +1,21 @@
 import { createStore, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import AppSaga from '../sagas/sagas';
+
 import reducers from './reducers/reducers';
 import Reactotron from '../services/reactotron';
-
-const sagaMiddleware = createSagaMiddleware();
+import thunk from 'redux-thunk';
+import * as api from '../services/api';
 
 let store = null;
 if (process.env.NODE_ENV === 'development') {
-  store = Reactotron.createStore(reducers, applyMiddleware(sagaMiddleware));
+  store = Reactotron.createStore(
+    reducers,
+    applyMiddleware(thunk.withExtraArgument({ api }))
+  );
 } else {
-  store = createStore(reducers, applyMiddleware(sagaMiddleware));
+  store = createStore(
+    reducers,
+    applyMiddleware(thunk.withExtraArgument({ api }))
+  );
 }
-
-sagaMiddleware.run(AppSaga);
 
 export default store;
