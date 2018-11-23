@@ -1,8 +1,8 @@
 import wretch from 'wretch';
 import logger from './logger';
 
-const REQUEST_TIMEOUT = 1000;
-const DELAY = 1;
+const REQUEST_TIMEOUT = 5000;
+const DELAY = 0;
 
 const delayMiddleware = delay => next => (url, opts) => {
   return new Promise(res => setTimeout(() => res(next(url, opts)), delay));

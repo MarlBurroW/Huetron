@@ -9,6 +9,11 @@ import * as discoverBridgesSelectors from '../store/selectors/discoverBridgesSel
 import * as discoveredBridgesThunks from '../store/thunks/discoverBridgesThunks';
 import * as api from '../services/api';
 
+jest.setTimeout(10000);
+
+const delay = time =>
+  new Promise((resolve, reject) => setTimeout(() => resolve(), time));
+
 describe('Discover bridges Integration', () => {
   let flushThunks, store;
 
@@ -44,6 +49,54 @@ describe('Discover bridges Integration', () => {
     expect(
       discoverBridgesSelectors.discoveredBridges(store.getState())
     ).toEqual([]);
+  });
+
+  it('Test if the fetching flag in redux state change with good states during the thunk ', async () => {
+    nock('https://discovery.meethue.com')
+      .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
+      .get('/')
+      .delay(2000)
+      .reply(200, []);
+
+    expect(discoverBridgesSelectors.isDiscovering(store.getState())).toBe(
+      false
+    );
+
+    store.dispatch(discoveredBridgesThunks.discoverBridgesThunk());
+
+    await delay(1000);
+
+    expect(discoverBridgesSelectors.isDiscovering(store.getState())).toBe(true);
+
+    await flushThunks.flush();
+
+    expect(discoverBridgesSelectors.isDiscovering(store.getState())).toBe(
+      false
+    );
+  });
+
+  it('Test the redux state when a timeout occurs (>5000ms)', async () => {
+    nock('https://discovery.meethue.com')
+      .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
+      .get('/')
+      .delay(6000)
+      .reply(200, []);
+
+    expect(discoverBridgesSelectors.isDiscovering(store.getState())).toBe(
+      false
+    );
+
+    store.dispatch(discoveredBridgesThunks.discoverBridgesThunk());
+
+    await delay(1000); // 1sec
+
+    expect(discoverBridgesSelectors.isDiscovering(store.getState())).toBe(true);
+
+    await delay(4000); // 5sec
+
+    expect(discoverBridgesSelectors.isDiscovering(store.getState())).toBe(
+      false
+    );
   });
 
   it('Test redux state when discoverBridgesThunk succeed', async () => {

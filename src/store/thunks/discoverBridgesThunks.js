@@ -10,6 +10,7 @@ export function discoverBridgesThunk() {
 
     const bridgesIPs = await api.fetchBridgesIPFromMeetHueAPI().catch(() => {
       dispatch(fetchBridgeIPRejectedAction());
+
       return null;
     });
 
