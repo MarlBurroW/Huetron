@@ -1,25 +1,28 @@
 import produce from 'immer';
-import {
-  LINK_BRIDGE,
-  LINK_BRIDGE_FULFILLED,
-  LINK_BRIDGE_REJECTED,
-} from '../actions/linkBridgeActions';
+import * as actions from '../actions/linkBridgeActions';
 
 const linkBridgeReducer = produce(
   (draft, action) => {
     switch (action.type) {
-      case LINK_BRIDGE:
+      case actions.LINK_BRIDGE:
         draft.bridgeToLink = action.bridge;
         draft.countDown = 30;
         break;
-      case LINK_BRIDGE_FULFILLED:
+      case actions.LINK_BRIDGE_FULFILLED:
         draft.countDown = 0;
         draft.bridgeToLink = null;
         draft.bridges.push(action.linkedBridge);
         break;
-      case LINK_BRIDGE_REJECTED:
+      case actions.LINK_BRIDGE_REJECTED:
         draft.bridgeToLink = null;
         draft.countDown = 0;
+        break;
+      case actions.LINK_BRIDGE_CANCEL:
+        draft.bridgeToLink = null;
+        draft.countDown = 0;
+        break;
+      case actions.LINK_BRIDGE_DECREMENT_COUNTDOWN:
+        draft.countDown -= 1;
         break;
     }
   },

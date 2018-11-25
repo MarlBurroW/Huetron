@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
+
 //  Material components
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
@@ -18,11 +18,8 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import LockIcon from '@material-ui/icons/Lock';
 import { ServerMinus as ServerMinusIcon } from 'mdi-material-ui';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+
+import LinkBridgeDialog from '../components/LinkBridgeDialog';
 
 // Thunks
 import { discoverBridgesThunk } from '../store/thunks/discoverBridgesThunks';
@@ -99,26 +96,8 @@ class BridgesScreen extends React.Component {
               </ListItemSecondaryAction>
             </ListItem>
           ))}
-          <Dialog
-            open={this.props.bridgeToLink ? true : false}
-            keepMounted
-            onClose={this.handleClose}
-            aria-labelledby="alert-dialog-slide-title"
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle id="alert-dialog-slide-title">
-              {"Use Google's location service?"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                Let Google help apps determine location. This means sending
-                anonymous location data to Google, even when no apps are
-                running.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions />
-          </Dialog>
         </List>
+        <LinkBridgeDialog />
       </div>
     );
   }
@@ -128,14 +107,13 @@ const mapStateToProps = state => {
   return {
     bridges: state.discoveredBridges.bridges,
     fetching: state.discoveredBridges.fetching,
-    bridgeToLink: linkBridgeSelectors.bridgeToLink(state),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchBridges: () => dispatch(discoverBridgesThunk()),
-    linkBridge: bridge => dispatch(linkBridgeThunk(bridge)),
+    linkBridge: discoveredDridge => dispatch(linkBridgeThunk(discoveredDridge)),
   };
 };
 
