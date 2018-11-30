@@ -1,24 +1,22 @@
 import produce from 'immer';
-import {
-  FETCH_BRIDGE_IP_ADDRESSES,
-  FETCH_BRIDGE_IP_ADDRESSES_FULFILLED,
-  FETCH_BRIDGE_IP_ADDRESSES_REJECTED,
-} from '../actions/discoverBridgesActions';
+import * as discoverBridgesActions from '../actions/discoverBridgesActions';
 
 const discoverBridgesReducer = produce(
   (draft, action) => {
     switch (action.type) {
-      case FETCH_BRIDGE_IP_ADDRESSES:
+      case discoverBridgesActions.DISCOVER_BRIDGES:
         draft.fetching = true;
         draft.bridges = [];
         break;
-      case FETCH_BRIDGE_IP_ADDRESSES_FULFILLED:
+      case discoverBridgesActions.DISCOVER_BRIDGES_FULFILLED:
         draft.fetching = false;
-        draft.bridges = action.bridges;
         break;
-      case FETCH_BRIDGE_IP_ADDRESSES_REJECTED:
+      case discoverBridgesActions.DISCOVER_BRIDGES_REJECTED:
         draft.fetching = false;
         draft.bridges = [];
+        break;
+      case discoverBridgesActions.DISCOVER_BRIDGES_FOUND_FULFILLED:
+        draft.bridges.push(action.foundBridge);
         break;
     }
   },

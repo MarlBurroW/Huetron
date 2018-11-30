@@ -22,8 +22,9 @@ import { ServerMinus as ServerMinusIcon } from 'mdi-material-ui';
 import LinkBridgeDialog from '../components/LinkBridgeDialog';
 
 // Thunks
-import { discoverBridgesThunk } from '../store/thunks/discoverBridgesThunks';
-import { linkBridgeThunk } from '../store/thunks/linkBridgeThunks';
+import * as discoverBridgesActions from '../store/actions/discoverBridgesActions';
+// import { discoverBridgesThunk } from '../store/thunks/discoverBridgesThunks';
+// import { linkBridgeThunk } from '../store/thunks/linkBridgeThunks';
 
 // Selectors
 import * as linkBridgeSelectors from '../store/selectors/linkBridgeSelectors';
@@ -97,7 +98,7 @@ class BridgesScreen extends React.Component {
             </ListItem>
           ))}
         </List>
-        <LinkBridgeDialog />
+        {/* <LinkBridgeDialog /> */}
       </div>
     );
   }
@@ -112,8 +113,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchBridges: () => dispatch(discoverBridgesThunk()),
-    linkBridge: discoveredDridge => dispatch(linkBridgeThunk(discoveredDridge)),
+    fetchBridges: () =>
+      dispatch(discoverBridgesActions.discoverBridgesAction()),
+    linkBridge: discoveredDridge =>
+      dispatch(discoverBridgesActions.discoverBridgesAction()),
   };
 };
 
