@@ -6,13 +6,17 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
 
 import * as linkBridgeSelectors from '../store/selectors/linkBridgeSelectors';
+import * as linkBridgeActions from '../store/actions/linkBridgeActions';
 
-import {
-  linkBridgeThunk,
-  cancelBridgeLinkThunk,
-} from '../store/thunks/linkBridgeThunks';
+const styles = theme => ({
+  progress: {
+    margin: theme.spacing.unit * 2,
+  },
+});
 
 const LinkBridgeDialog = props => (
   <Dialog
@@ -26,11 +30,15 @@ const LinkBridgeDialog = props => (
       {"Use Google's location service?"}
     </DialogTitle>
     <DialogContent>
-      <DialogContentText id="alert-dialog-slide-description">
-        Let Google help apps determine location. This means sending anonymous
-        location data to Google, even when no apps are running.
-        {JSON.stringify(props.countDown)}
-      </DialogContentText>
+      {JSON.stringify(props.countDown)}
+
+      <CircularProgress
+        size={200}
+        thickness={1}
+        className={props.classes.progress}
+        variant="static"
+        value={(props.countDown / 30) * 100}
+      />
     </DialogContent>
     <DialogActions />
   </Dialog>
@@ -45,11 +53,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    cancelBridgeLink: () => dispatch(cancelBridgeLinkThunk()),
+    cancelBridgeLink: () =>
+      dispatch(linkBridgeActions.linkBridgeCancelAction()),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LinkBridgeDialog);
+)(withStyles(styles)(LinkBridgeDialog));

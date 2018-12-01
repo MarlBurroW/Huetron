@@ -23,6 +23,7 @@ import LinkBridgeDialog from '../components/LinkBridgeDialog';
 
 // Thunks
 import * as discoverBridgesActions from '../store/actions/discoverBridgesActions';
+import * as linkBridgeActions from '../store/actions/linkBridgeActions';
 // import { discoverBridgesThunk } from '../store/thunks/discoverBridgesThunks';
 // import { linkBridgeThunk } from '../store/thunks/linkBridgeThunks';
 
@@ -98,7 +99,7 @@ class BridgesScreen extends React.Component {
             </ListItem>
           ))}
         </List>
-        {/* <LinkBridgeDialog /> */}
+        <LinkBridgeDialog />
       </div>
     );
   }
@@ -116,7 +117,7 @@ const mapDispatchToProps = dispatch => {
     fetchBridges: () =>
       dispatch(discoverBridgesActions.discoverBridgesAction()),
     linkBridge: discoveredDridge =>
-      dispatch(discoverBridgesActions.discoverBridgesAction()),
+      dispatch(linkBridgeActions.linkBridgeAction(discoveredDridge)),
   };
 };
 

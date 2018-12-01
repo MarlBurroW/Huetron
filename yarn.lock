@@ -7303,6 +7303,10 @@ redux-observable@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/redux-observable/-/redux-observable-1.0.0.tgz#780ff2455493eedcef806616fe286b454fd15d91"
 
+redux-saga@^0.16.2:
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.16.2.tgz#993662e86bc945d8509ac2b8daba3a8c615cc971"
+
 redux-testkit@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/redux-testkit/-/redux-testkit-1.0.6.tgz#58b2b389455be927a4eff796060a17eee89d9393"
