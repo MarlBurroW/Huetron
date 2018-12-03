@@ -5,12 +5,12 @@ export const LINK_BRIDGE_CANCEL = 'LINK_BRIDGE_CANCEL';
 export const LINK_BRIDGE_DECREMENT_COUNTDOWN =
   'LINK_BRIDGE_DECREMENT_COUNTDOWN';
 
-export function linkBridgeAction(bridge) {
-  return { type: LINK_BRIDGE, bridge };
+export function linkBridgeAction(bridgeToLink) {
+  return { type: LINK_BRIDGE, bridgeToLink };
 }
 
-export function linkBridgeFulfilledAction(linkedBridge) {
-  return { type: LINK_BRIDGE_FULFILLED, linkedBridge };
+export function linkBridgeFulfilledAction() {
+  return { type: LINK_BRIDGE_FULFILLED };
 }
 
 export function linkBridgeRejectedAction(error) {

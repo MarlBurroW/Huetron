@@ -22,6 +22,14 @@ export function fetchBridgeInfo(bridge) {
 export function authorizeBridge(bridge) {
   return apiCall('post', buildBridgeAPIUrl(bridge), {
     devicetype: DEVICE_TYPE,
+  }).then(() => {
+    return [
+      {
+        success: {
+          username: '090498489449',
+        },
+      },
+    ];
   });
 }
 

@@ -5,13 +5,13 @@ const linkBridgeReducer = produce(
   (draft, action) => {
     switch (action.type) {
       case actions.LINK_BRIDGE:
-        draft.bridgeToLink = action.bridge;
+        draft.bridgeToLink = action.bridgeToLink;
         draft.countDown = 30;
         break;
       case actions.LINK_BRIDGE_FULFILLED:
         draft.countDown = 0;
         draft.bridgeToLink = null;
-        draft.bridges.push(action.linkedBridge);
+
         break;
       case actions.LINK_BRIDGE_REJECTED:
         draft.bridgeToLink = null;
@@ -29,7 +29,6 @@ const linkBridgeReducer = produce(
   {
     bridgeToLink: null,
     countDown: 0,
-    bridges: [],
   }
 );
 
