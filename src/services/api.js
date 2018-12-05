@@ -53,6 +53,7 @@ export function apiCall(method, endpoint, payload) {
     })
     .catch(err => {
       logger.error(`API CALL REQUEST ERROR: ${err}`);
+
       throw err;
     });
 }

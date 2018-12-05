@@ -30,11 +30,9 @@ const LinkBridgeDialog = props => (
       {"Use Google's location service?"}
     </DialogTitle>
     <DialogContent>
-      {JSON.stringify(props.countDown)}
-
       <CircularProgress
         size={200}
-        thickness={1}
+        thickness={0.3}
         className={props.classes.progress}
         variant="static"
         value={(props.countDown / 30) * 100}

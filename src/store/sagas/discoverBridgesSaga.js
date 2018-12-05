@@ -22,7 +22,6 @@ export function* discoverBridgesSaga() {
     yield put(discoverBridgesActions.discoverBridgesFulFilledAction());
   } catch (e) {
     yield put(discoverBridgesActions.discoverBridgesRejectedAction());
-    return;
   }
 }
 

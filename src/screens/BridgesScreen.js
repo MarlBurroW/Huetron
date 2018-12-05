@@ -20,15 +20,15 @@ import LockIcon from '@material-ui/icons/Lock';
 import { ServerMinus as ServerMinusIcon } from 'mdi-material-ui';
 
 import LinkBridgeDialog from '../components/LinkBridgeDialog';
+import BridgeItem from '../components/BridgeItem';
 
-// Thunks
+// Actions
 import * as discoverBridgesActions from '../store/actions/discoverBridgesActions';
 import * as linkBridgeActions from '../store/actions/linkBridgeActions';
-// import { discoverBridgesThunk } from '../store/thunks/discoverBridgesThunks';
-// import { linkBridgeThunk } from '../store/thunks/linkBridgeThunks';
 
 // Selectors
 import * as linkBridgeSelectors from '../store/selectors/linkBridgeSelectors';
+import { mergedBridges } from '../store/selectors/bridgeSelectors';
 
 const styles = theme => ({
   container: {
@@ -39,19 +39,6 @@ const styles = theme => ({
 class BridgesScreen extends React.Component {
   componentDidMount() {
     this.props.fetchBridges();
-  }
-
-  formatBridgeCount(bridges) {
-    switch (bridges.length) {
-      case 0:
-        return 'No unlinked brdige found on your local network';
-
-      case 1:
-        return '1 Unlinked bridge found on your local network';
-
-      default:
-        return `${bridges.length} Unlinked bridges found on your local network`;
-    }
   }
 
   render() {
@@ -73,33 +60,14 @@ class BridgesScreen extends React.Component {
             </Button>
           </Grid>
         </Grid>
-
-        <List
-          component="nav"
-          subheader={
-            <ListSubheader component="div">
-              {this.formatBridgeCount(this.props.bridges)}
-            </ListSubheader>
-          }
-        >
+        <div className={classes.container}>
           {this.props.bridges.map(bridge => (
-            <ListItem key={bridge.bridgeid}>
-              <ListItemIcon>
-                <ServerMinusIcon />
-              </ListItemIcon>
-              <ListItemText inset primary={bridge.name} />
-              <ListItemSecondaryAction>
-                <IconButton
-                  onClick={() => this.props.linkBridge(bridge)}
-                  aria-label="Delete"
-                >
-                  <LockIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
+            <BridgeItem bridge={bridge} key={bridge.bridgeid} />
           ))}
-        </List>
-        <LinkBridgeDialog />
+
+          <LinkBridgeDialog />
+        </div>
+        {JSON.stringify(this.props.bridges)}
       </div>
     );
   }
@@ -107,7 +75,7 @@ class BridgesScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    bridges: state.discoveredBridges.bridges,
+    bridges: mergedBridges(state),
     fetching: state.discoveredBridges.fetching,
   };
 };

@@ -5,10 +5,13 @@ import * as settingsActions from '../actions/settingsActions';
 
 export default function* startupSaga() {
   const linkedBridges = yield select(settingsSelectors.linkedBridges);
-
   // Update bridge information
   if (linkedBridges.length > 0) {
-    const foundBridges = yield call(api.fetchBridgesIPFromMeetHueAPI);
+    let foundBridges = [];
+    try {
+      foundBridges = yield call(api.fetchBridgesIPFromMeetHueAPI);
+    } catch (e) {}
+
     for (let i = 0; i < linkedBridges.length; i++) {
       // Update IP addresses
       let linkedBridge = linkedBridges[i];
@@ -18,19 +21,23 @@ export default function* startupSaga() {
           bridge.id.toUpperCase() === linkedBridge.bridgeid.toUpperCase()
       );
 
-      if (foundBridge.internalipaddress !== linkedBridge.internalipaddress) {
-        linkedBridge = Object.assign({}, linkedBridge, {
+      if (
+        foundBridge &&
+        foundBridge.internalipaddress !== linkedBridge.internalipaddress
+      ) {
+        const IPUpdatedBridge = Object.assign({}, linkedBridge, {
           internalipaddress: foundBridge.internalipaddress,
         });
 
-        yield put(settingsActions.addLinkedBridgeAction(linkedBridge));
+        yield put(settingsActions.addLinkedBridgeAction(IPUpdatedBridge));
       }
 
-      // Update info
-      const updatedInfo = yield call(api.fetchBridgeInfo, linkedBridge);
-      const updatedBridge = Object.assign({}, linkedBridge, updatedInfo);
-
-      yield put(settingsActions.addLinkedBridgeAction(updatedBridge));
+      // Update bridge info
+      try {
+        const updatedInfo = yield call(api.fetchBridgeInfo, linkedBridge);
+        const updatedBridge = Object.assign({}, linkedBridge, updatedInfo);
+        yield put(settingsActions.addLinkedBridgeAction(updatedBridge));
+      } catch (e) {}
     }
   }
 }
