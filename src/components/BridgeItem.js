@@ -8,9 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
+
 import LockIcon from '@material-ui/icons/Lock';
 import Chip from '@material-ui/core/Chip';
 import DoneIcon from '@material-ui/icons/Done';
@@ -67,14 +65,18 @@ const BridgeItem = props => {
           >
             <LockIcon />
           </IconButton>
-          <Chip
-            label="Authorized"
-            onDelete={() => {}}
-            className={classes.chip}
-            color="primary"
-            deleteIcon={<DoneIcon />}
-            variant="outlined"
-          />
+          {bridge.username ? (
+            <Chip
+              label="Authorized"
+              onDelete={() => {}}
+              className={classes.chip}
+              color="primary"
+              deleteIcon={<DoneIcon />}
+              variant="outlined"
+            />
+          ) : (
+            ''
+          )}
         </div>
       </div>
       <CardMedia

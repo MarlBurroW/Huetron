@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import posed, { PoseGroup } from 'react-pose';
 
 //  Material components
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -9,16 +10,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import ListSubheader from '@material-ui/core/ListSubheader';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import LockIcon from '@material-ui/icons/Lock';
-import { ServerMinus as ServerMinusIcon } from 'mdi-material-ui';
-
+// App components
 import LinkBridgeDialog from '../components/LinkBridgeDialog';
 import BridgeItem from '../components/BridgeItem';
 
@@ -27,8 +19,15 @@ import * as discoverBridgesActions from '../store/actions/discoverBridgesActions
 import * as linkBridgeActions from '../store/actions/linkBridgeActions';
 
 // Selectors
-import * as linkBridgeSelectors from '../store/selectors/linkBridgeSelectors';
-import { mergedBridges } from '../store/selectors/bridgeSelectors';
+import * as discoverBridgesSelectors from '../store/selectors/discoverBridgesSelectors';
+
+const BridgeItemPosed = posed.div({
+  enter: {
+    x: '0%',
+    delay: ({ i }) => i * 100,
+  },
+  exit: { x: '500%' },
+});
 
 const styles = theme => ({
   container: {
@@ -61,13 +60,15 @@ class BridgesScreen extends React.Component {
           </Grid>
         </Grid>
         <div className={classes.container}>
-          {this.props.bridges.map(bridge => (
-            <BridgeItem bridge={bridge} key={bridge.bridgeid} />
-          ))}
-
-          <LinkBridgeDialog />
+          <PoseGroup>
+            {this.props.bridges.map((bridge, i) => (
+              <BridgeItemPosed i={i} key={bridge.bridgeid}>
+                <BridgeItem bridge={bridge} />
+              </BridgeItemPosed>
+            ))}
+          </PoseGroup>
         </div>
-        {JSON.stringify(this.props.bridges)}
+        <LinkBridgeDialog />
       </div>
     );
   }
@@ -75,8 +76,8 @@ class BridgesScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    bridges: mergedBridges(state),
-    fetching: state.discoveredBridges.fetching,
+    bridges: discoverBridgesSelectors.mergedBridgesSelector(state),
+    fetching: discoverBridgesSelectors.isDiscoveringSelector(state),
   };
 };
 

@@ -4,7 +4,7 @@ import * as settingsSelectors from '../selectors/settingsSelectors';
 import * as settingsActions from '../actions/settingsActions';
 
 export default function* startupSaga() {
-  const linkedBridges = yield select(settingsSelectors.linkedBridges);
+  const linkedBridges = yield select(settingsSelectors.linkedBridgesSelector);
   // Update bridge information
   if (linkedBridges.length > 0) {
     let foundBridges = [];

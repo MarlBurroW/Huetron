@@ -1,5 +1,6 @@
 import wretch from 'wretch';
 import logger from './logger';
+import mockMiddleware from './mockMiddleware';
 
 const REQUEST_TIMEOUT = 5000;
 const DELAY = 0;
@@ -9,7 +10,7 @@ const delayMiddleware = delay => next => (url, opts) => {
   return new Promise(res => setTimeout(() => res(next(url, opts)), delay));
 };
 
-const api = wretch().middlewares([delayMiddleware(DELAY)]);
+const api = wretch().middlewares([delayMiddleware(DELAY), mockMiddleware()]);
 
 export function fetchBridgesIPFromMeetHueAPI() {
   return apiCall('get', 'https://discovery.meethue.com/');
@@ -48,7 +49,7 @@ export function apiCall(method, endpoint, payload) {
     [method](payload)
     .setTimeout(REQUEST_TIMEOUT)
     .res(async response => {
-      logResponse(response);
+      // logResponse(response);
       return response.json();
     })
     .catch(err => {

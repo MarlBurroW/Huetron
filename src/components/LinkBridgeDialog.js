@@ -44,8 +44,8 @@ const LinkBridgeDialog = props => (
 
 const mapStateToProps = state => {
   return {
-    countDown: linkBridgeSelectors.countDown(state),
-    bridgeToLink: linkBridgeSelectors.bridgeToLink(state),
+    countDown: linkBridgeSelectors.countDownSelector(state),
+    bridgeToLink: linkBridgeSelectors.bridgeToLinkSelector(state),
   };
 };
 

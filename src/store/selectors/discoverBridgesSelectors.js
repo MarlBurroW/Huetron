@@ -1,5 +1,15 @@
-import { createSelector } from 'reselect';
+import * as settingsSelectors from './settingsSelectors';
+import _ from 'lodash';
 
-export const discoveredBridges = state => state.discoveredBridges.bridges;
+export const discoveredBridgesSelector = state =>
+  state.discoveredBridges.bridges;
 
-export const isDiscovering = state => state.discoveredBridges.fetching;
+export const isDiscoveringSelector = state => state.discoveredBridges.fetching;
+
+export const mergedBridgesSelector = state => {
+  return _.unionBy(
+    settingsSelectors.linkedBridgesSelector(state),
+    discoveredBridgesSelector(state),
+    'bridgeid'
+  );
+};

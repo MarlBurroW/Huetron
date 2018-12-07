@@ -1,7 +1,5 @@
-import { createSelector } from 'reselect';
+export const linkedBridgesSelector = state => state.linkedBridges.bridges;
 
-export const linkedBridges = state => state.linkedBridges.bridges;
+export const bridgeToLinkSelector = state => state.linkedBridges.bridgeToLink;
 
-export const bridgeToLink = state => state.linkedBridges.bridgeToLink;
-
-export const countDown = state => state.linkedBridges.countDown;
+export const countDownSelector = state => state.linkedBridges.countDown;

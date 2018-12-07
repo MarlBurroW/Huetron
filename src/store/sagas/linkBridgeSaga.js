@@ -22,8 +22,8 @@ function* linkBridgeSaga(action) {
   while (true) {
     yield call(delay, 1000);
     yield put(linkBridgeActions.linkBridgeDecrementCountDown());
-    const bridgeToLink = yield select(linkBridgeSelectors.bridgeToLink);
-    const countDown = yield select(linkBridgeSelectors.countDown);
+    const bridgeToLink = yield select(linkBridgeSelectors.bridgeToLinkSelector);
+    const countDown = yield select(linkBridgeSelectors.countDownSelector);
     try {
       const result = yield call(api.authorizeBridge, bridgeToLink);
       if (result[0].success) {
@@ -32,7 +32,9 @@ function* linkBridgeSaga(action) {
           bridgeToLink
         );
         yield put(settingsActions.addLinkedBridgeAction(authorizedBridge));
-        const defaultBridgeId = yield select(settingsSelectors.defaultBridgeId);
+        const defaultBridgeId = yield select(
+          settingsSelectors.defaultBridgeIdSelector
+        );
 
         if (!defaultBridgeId) {
           yield put(settingsActions.setDefaultBridgeAction(authorizedBridge));

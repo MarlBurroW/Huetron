@@ -1,10 +1,8 @@
-import { createSelector } from 'reselect';
+export const defaultBridgeIdSelector = state => state.settings.defaultBridgeId;
 
-export const defaultBridgeId = state => state.settings.defaultBridgeId;
-
-export const defaultBridge = state =>
+export const defaultBridgeSelector = state =>
   state.settings.linkedBridge.find(
-    bridge => bridge.bridgeid === defaultBridgeId(state)
+    bridge => bridge.bridgeid === defaultBridgeIdSelector(state)
   );
 
-export const linkedBridges = state => state.settings.linkedBridges;
+export const linkedBridgesSelector = state => state.settings.linkedBridges;
