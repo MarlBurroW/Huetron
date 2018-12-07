@@ -12,8 +12,32 @@ export default () => next => (url, opts) => {
         _.shuffle([
           { id: '001788fffe2737bf', internalipaddress: '97.244.22.33' },
           { id: '394ffef3949ff939', internalipaddress: '10.34.21.10' },
-          { id: '494feefjFJ499595', internalipaddress: '213.43.23.45' },
+          { id: '494feefjFJ499595', internalipaddress: '213.43.23.46' },
         ])
+      );
+  }
+
+  if (
+    opts.method === 'POST' &&
+    (url === 'http://97.244.22.33/api' ||
+      url === 'http://10.34.21.10/api' ||
+      url === 'http://213.43.23.46/api')
+  ) {
+    response.json = () =>
+      Promise.resolve(
+        Math.floor(Math.random() * Math.floor(4)) === 1
+          ? [
+              {
+                success: {
+                  username: '83b7780291a6ceffbe0bd049104df',
+                },
+              },
+            ]
+          : [
+              {
+                error: 'link button not presset',
+              },
+            ]
       );
   }
 
@@ -49,7 +73,7 @@ export default () => next => (url, opts) => {
       });
   }
 
-  if (url === 'http://213.43.23.45/api/config') {
+  if (url === 'http://213.43.23.46/api/config') {
     response.json = () =>
       Promise.resolve({
         name: 'Bridge 3',

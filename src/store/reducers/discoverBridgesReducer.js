@@ -1,5 +1,6 @@
 import produce from 'immer';
 import * as discoverBridgesActions from '../actions/discoverBridgesActions';
+import _ from 'lodash';
 
 const discoverBridgesReducer = produce(
   (draft, action) => {
@@ -17,6 +18,9 @@ const discoverBridgesReducer = produce(
         break;
       case discoverBridgesActions.DISCOVER_BRIDGES_FOUND_FULFILLED:
         draft.bridges.push(action.foundBridge);
+        break;
+      case discoverBridgesActions.DISCOVER_BRIDGES_SHUFFLE:
+        draft.bridges = _.shuffle(draft.bridges);
         break;
     }
   },

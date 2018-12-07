@@ -22,11 +22,18 @@ import * as linkBridgeActions from '../store/actions/linkBridgeActions';
 import * as discoverBridgesSelectors from '../store/selectors/discoverBridgesSelectors';
 
 const BridgeItemPosed = posed.div({
-  enter: {
-    x: '0%',
-    delay: ({ i }) => i * 100,
+  flip: {
+    transition: 'linear',
   },
-  exit: { x: '500%' },
+  enter: {
+    scale: 1,
+    delay: ({ i }) => i * 200,
+    transition: {
+      duration: 100,
+      ease: 'linear',
+    },
+  },
+  exit: { scale: 0 },
 });
 
 const styles = theme => ({
@@ -57,6 +64,7 @@ class BridgesScreen extends React.Component {
                 'REFRESH'
               )}
             </Button>
+            <Button onClick={this.props.reorder}>{'Reorder'}</Button>
           </Grid>
         </Grid>
         <div className={classes.container}>
@@ -83,6 +91,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    reorder: () =>
+      dispatch(discoverBridgesActions.discoverBridgesShuffleAction()),
     fetchBridges: () =>
       dispatch(discoverBridgesActions.discoverBridgesAction()),
     linkBridge: discoveredDridge =>

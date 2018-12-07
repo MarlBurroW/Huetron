@@ -3,6 +3,7 @@ export const DISCOVER_BRIDGES_FULFILLED = 'DISCOVER_BRIDGES_FULFILLED';
 export const DISCOVER_BRIDGES_REJECTED = 'DISCOVER_BRIDGES_REJECTED';
 export const DISCOVER_BRIDGES_FOUND_FULFILLED =
   'DISCOVER_BRIDGES_FOUND_FULFILLED';
+export const DISCOVER_BRIDGES_SHUFFLE = 'DISCOVER_BRIDGES_SHUFFLE';
 
 export function discoverBridgesAction() {
   return { type: DISCOVER_BRIDGES };
@@ -18,4 +19,8 @@ export function discoverBridgesFoundAction(foundBridge) {
 
 export function discoverBridgesRejectedAction(error) {
   return { type: DISCOVER_BRIDGES_REJECTED, error };
+}
+
+export function discoverBridgesShuffleAction() {
+  return { type: DISCOVER_BRIDGES_SHUFFLE };
 }
