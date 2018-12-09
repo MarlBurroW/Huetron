@@ -74,23 +74,20 @@ const BridgeItem = props => {
         </CardContent>
         <div className={classes.controls}>
           {bridge.username ? (
-            <Button onClick={() => props.unlinkBridge(bridge)}>
-              <LinkOffIcon className={classes.buttonIcon} />
-              {'Unlink'}
-            </Button>
+            <IconButton onClick={() => props.unlinkBridge(bridge)}>
+              <LinkOffIcon />
+            </IconButton>
           ) : (
-            <Button onClick={() => props.linkBridge(bridge)}>
-              <LinkIcon className={classes.buttonIcon} />
-              {'Link'}
-            </Button>
+            <IconButton onClick={() => props.linkBridge(bridge)}>
+              <LinkIcon />
+            </IconButton>
           )}
           {bridge.username &&
           props.currentBridge &&
           props.currentBridge.bridgeid !== bridge.bridgeid ? (
-            <Button onClick={() => props.setAsCurrentBridge(bridge)}>
-              <Target className={classes.buttonIcon} />
-              {''}
-            </Button>
+            <IconButton onClick={() => props.setAsCurrentBridge(bridge)}>
+              <Target />
+            </IconButton>
           ) : (
             ''
           )}
