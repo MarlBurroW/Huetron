@@ -26,11 +26,6 @@ export default function* linkBridgeSagaWatcher() {
   }
 }
 
-function* unlinkBridgeSaga(action) {
-  alert(JSON.stringify(action.bridgeToUnlink));
-  yield put(settingsActions.removeLinkedBridgeAction, action.bridgeToUnlink);
-}
-
 function* linkBridgeSaga(action) {
   while (true) {
     yield call(delay, 1000);
@@ -45,12 +40,14 @@ function* linkBridgeSaga(action) {
           bridgeToLink
         );
         yield put(settingsActions.addLinkedBridgeAction(authorizedBridge));
-        const defaultBridgeId = yield select(
-          settingsSelectors.defaultBridgeIdSelector
+        const currentBridgeId = yield select(
+          settingsSelectors.currentBridgeIdSelector
         );
 
-        if (!defaultBridgeId) {
-          yield put(settingsActions.setDefaultBridgeAction(authorizedBridge));
+        if (!currentBridgeId) {
+          yield put(
+            settingsActions.setCurrentBridgeIdAction(authorizedBridge.bridgeod)
+          );
         }
 
         yield put(linkBridgeActions.linkBridgeFulfilledAction());

@@ -28,14 +28,14 @@ const linkBridgeReducer = produce(
         }
 
         break;
-      case actions.SET_DEFAULT_BRIDGE:
-        draft.defaultBridgeId = action.authorizedBridge.bridgeid;
+      case actions.SET_CURRENT_BRIDGE_ID:
+        draft.currentBridgeId = action.bridgeid;
         break;
     }
   },
   {
     linkedBridges: [],
-    defaultBridgeId: null,
+    currentBridgeId: null,
   }
 );
 

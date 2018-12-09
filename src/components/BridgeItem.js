@@ -9,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 import LockIcon from '@material-ui/icons/Lock';
 
@@ -16,6 +17,8 @@ import { LockOpenOutline, LockOutline } from 'mdi-material-ui';
 
 import Chip from '@material-ui/core/Chip';
 import DoneIcon from '@material-ui/icons/Done';
+import LinkIcon from '@material-ui/icons/Link';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
 
 import * as linkBridgeActions from '../store/actions/linkBridgeActions';
 import * as unlinkBridgeActions from '../store/actions/unlinkBridgeActions';
@@ -25,6 +28,9 @@ import image from '../images/bridge.jpg';
 const styles = theme => ({
   card: {
     display: 'flex',
+  },
+  buttonIcon: {
+    marginRight: theme.spacing.unit,
   },
   details: {
     display: 'flex',
@@ -64,29 +70,24 @@ const BridgeItem = props => {
           </Typography>
         </CardContent>
         <div className={classes.controls}>
-          <IconButton
-            onClick={() => props.linkBridge(bridge)}
-            aria-label="Next"
-          >
-            <LockIcon />
-          </IconButton>
           {bridge.username ? (
-            <IconButton
-              onClick={() => props.unlinkBridge(bridge)}
-              aria-label="Next"
-            >
-              <LockIcon />
-            </IconButton>
+            <Button onClick={() => props.unlinkBridge(bridge)}>
+              <LinkOffIcon className={classes.buttonIcon} />
+              {'Unlink'}
+            </Button>
           ) : (
-            ''
+            <Button onClick={() => props.linkBridge(bridge)}>
+              <LinkIcon className={classes.buttonIcon} />
+              {'Link'}
+            </Button>
           )}
           <Chip
             avatar={
               <Avatar>
-                {bridge.username ? <LockOpenOutline /> : <LockOutline />}
+                {bridge.username ? <LinkIcon /> : <LinkOffIcon />}
               </Avatar>
             }
-            color={bridge.username ? 'primary' : ''}
+            color={bridge.username ? 'primary' : 'default'}
             label={bridge.username ? 'Linked' : 'Not linked'}
           />
         </div>

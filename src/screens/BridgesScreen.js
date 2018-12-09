@@ -26,14 +26,16 @@ const BridgeItemPosed = posed.div({
     transition: 'linear',
   },
   enter: {
-    scale: 1,
+    opacity: 1,
     delay: ({ i }) => i * 200,
     transition: {
       duration: 100,
       ease: 'linear',
     },
   },
-  exit: { scale: 0 },
+  exit: {
+    opacity: 0,
+  },
 });
 
 const styles = theme => ({

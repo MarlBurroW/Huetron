@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
+
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,7 +14,18 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { LightbulbOutline } from 'mdi-material-ui';
 import { Link } from 'react-router-dom';
+import Select from '@material-ui/core/Select';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import FilledInput from '@material-ui/core/FilledInput';
+import IconButton from '@material-ui/core/IconButton';
+
 import Tooltip from '@material-ui/core/Tooltip';
+
+import * as settingsSelectors from '../store/selectors/settingsSelectors';
+import * as settingsActions from '../store/actions/settingsActions';
 
 const drawerWidth = 240;
 
@@ -28,6 +41,12 @@ const menu = [
 const styles = theme => ({
   root: {
     display: 'flex',
+  },
+  currentBridgeFormControl: {
+    width: 200,
+  },
+  grow: {
+    flexGrow: 1,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -103,11 +122,60 @@ class AppLayout extends React.Component {
           })}
         >
           <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
+            <Typography
+              className={classes.grow}
+              variant="h6"
+              color="inherit"
+              noWrap
+            >
               ChromeHue
             </Typography>
+            <IconButton
+              aria-haspopup="true"
+              onClick={this.handleMenu}
+              color="inherit"
+            >
+              <LightbulbOutline />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              onClose={() => {}}
+            >
+              <MenuItem onClick={() => {}}>Profile</MenuItem>
+              <MenuItem onClick={() => {}}>My account</MenuItem>
+            </Menu>
+
+            <FormControl
+              className={classes.currentBridgeFormControl}
+              variant="outlined"
+            >
+              <InputLabel htmlFor="current-bridge">Current Bridge</InputLabel>
+              <Select
+                value={this.props.currentBridgeId}
+                onChange={event => {
+                  this.props.setCurrentBridgeId(event.target.value);
+                }}
+                name="age"
+                input={
+                  <FilledInput name="current-bridge" id="current-bridge" />
+                }
+              >
+                {this.props.linkedBridges.map(bridge => (
+                  <MenuItem value={bridge.bridgeid}>{bridge.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Toolbar>
         </AppBar>
+
         <Drawer
           variant="permanent"
           className={classNames(classes.drawer, {
@@ -150,9 +218,26 @@ class AppLayout extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    linkedBridges: settingsSelectors.linkedBridgesSelector(state),
+    currentBridgeId: settingsSelectors.currentBridgeIdSelector(state),
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setCurrentBridgeId: bridgeid =>
+      dispatch(settingsActions.setCurrentBridgeIdAction(bridgeid)),
+  };
+};
+
 AppLayout.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(AppLayout);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles, { withTheme: true })(AppLayout));
