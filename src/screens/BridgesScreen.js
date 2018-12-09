@@ -64,7 +64,7 @@ class BridgesScreen extends React.Component {
           <Grid item>
             <Button onClick={this.props.fetchBridges}>
               {this.props.fetching ? (
-                <CircularProgress color="primary" size={18} /> // Size 14 works pretty well
+                <CircularProgress color="primary" size={18} />
               ) : (
                 'REFRESH'
               )}

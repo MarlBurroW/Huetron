@@ -46,7 +46,7 @@ function* linkBridgeSaga(action) {
 
         if (!currentBridgeId) {
           yield put(
-            settingsActions.setCurrentBridgeIdAction(authorizedBridge.bridgeod)
+            settingsActions.setCurrentBridgeIdAction(authorizedBridge.bridgeid)
           );
         }
 

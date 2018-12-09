@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 
 import LockIcon from '@material-ui/icons/Lock';
 
-import { LockOpenOutline, LockOutline } from 'mdi-material-ui';
+import { LockOpenOutline, LockOutline, Target } from 'mdi-material-ui';
 
 import Chip from '@material-ui/core/Chip';
 import DoneIcon from '@material-ui/icons/Done';
@@ -22,6 +22,9 @@ import LinkOffIcon from '@material-ui/icons/LinkOff';
 
 import * as linkBridgeActions from '../store/actions/linkBridgeActions';
 import * as unlinkBridgeActions from '../store/actions/unlinkBridgeActions';
+import * as settingsActions from '../store/actions/settingsActions';
+
+import * as settingsSelectors from '../store/selectors/settingsSelectors';
 
 import image from '../images/bridge.jpg';
 
@@ -81,15 +84,45 @@ const BridgeItem = props => {
               {'Link'}
             </Button>
           )}
-          <Chip
-            avatar={
-              <Avatar>
-                {bridge.username ? <LinkIcon /> : <LinkOffIcon />}
-              </Avatar>
-            }
-            color={bridge.username ? 'primary' : 'default'}
-            label={bridge.username ? 'Linked' : 'Not linked'}
-          />
+          {bridge.username &&
+          props.currentBridge &&
+          props.currentBridge.bridgeid !== bridge.bridgeid ? (
+            <Button onClick={() => props.setAsCurrentBridge(bridge)}>
+              <Target className={classes.buttonIcon} />
+              {''}
+            </Button>
+          ) : (
+            ''
+          )}
+
+          {bridge.username ? (
+            <Chip
+              avatar={
+                <Avatar>
+                  <LinkIcon />
+                </Avatar>
+              }
+              color="primary"
+              label="Linked"
+            />
+          ) : (
+            ''
+          )}
+
+          {props.currentBridge &&
+          props.currentBridge.bridgeid === bridge.bridgeid ? (
+            <Chip
+              avatar={
+                <Avatar>
+                  <Target />
+                </Avatar>
+              }
+              color="primary"
+              label="Current bridge"
+            />
+          ) : (
+            ''
+          )}
         </div>
       </div>
       <CardMedia
@@ -102,11 +135,15 @@ const BridgeItem = props => {
 };
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    currentBridge: settingsSelectors.currentBridgeSelector(state),
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    setAsCurrentBridge: bridge =>
+      dispatch(settingsActions.setCurrentBridgeIdAction(bridge.bridgeid)),
     unlinkBridge: bridge =>
       dispatch(unlinkBridgeActions.unlinkBridgeAction(bridge)),
     linkBridge: bridge => dispatch(linkBridgeActions.linkBridgeAction(bridge)),

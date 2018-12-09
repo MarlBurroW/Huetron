@@ -20,6 +20,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import FilledInput from '@material-ui/core/FilledInput';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Input from '@material-ui/core/Input';
 import IconButton from '@material-ui/core/IconButton';
 
 import Tooltip from '@material-ui/core/Tooltip';
@@ -130,49 +132,30 @@ class AppLayout extends React.Component {
             >
               ChromeHue
             </Typography>
-            <IconButton
-              aria-haspopup="true"
-              onClick={this.handleMenu}
-              color="inherit"
-            >
-              <LightbulbOutline />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              onClose={() => {}}
-            >
-              <MenuItem onClick={() => {}}>Profile</MenuItem>
-              <MenuItem onClick={() => {}}>My account</MenuItem>
-            </Menu>
-
-            <FormControl
-              className={classes.currentBridgeFormControl}
-              variant="outlined"
-            >
-              <InputLabel htmlFor="current-bridge">Current Bridge</InputLabel>
-              <Select
-                value={this.props.currentBridgeId}
-                onChange={event => {
-                  this.props.setCurrentBridgeId(event.target.value);
-                }}
-                name="age"
-                input={
-                  <FilledInput name="current-bridge" id="current-bridge" />
-                }
+            {this.props.currentBridgeId &&
+            this.props.linkedBridges.length > 0 ? (
+              <FormControl
+                className={classes.currentBridgeFormControl}
+                variant="filled"
               >
-                {this.props.linkedBridges.map(bridge => (
-                  <MenuItem value={bridge.bridgeid}>{bridge.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <InputLabel htmlFor="current-bridge">Current Bridge</InputLabel>
+                <Select
+                  value={this.props.currentBridgeId}
+                  input={<FilledInput id="current-bridge" />}
+                  onChange={event => {
+                    this.props.setCurrentBridgeId(event.target.value);
+                  }}
+                >
+                  {this.props.linkedBridges.map(bridge => (
+                    <MenuItem key={bridge.bridgeid} value={bridge.bridgeid}>
+                      {bridge.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            ) : (
+              ''
+            )}
           </Toolbar>
         </AppBar>
 
