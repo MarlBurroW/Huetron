@@ -40,6 +40,9 @@ const styles = theme => ({
   container: {
     padding: theme.spacing.unit * 2,
   },
+  bridgeItem: {
+    marginBottom: theme.spacing.unit * 2,
+  },
 });
 
 class BridgesScreen extends React.Component {
@@ -52,7 +55,7 @@ class BridgesScreen extends React.Component {
 
     return (
       <div>
-        <Grid container spacing={24} className={classes.container}>
+        <Grid container className={classes.container}>
           <Grid item>
             <Typography variant="h5">Bridges</Typography>
           </Grid>
@@ -70,7 +73,11 @@ class BridgesScreen extends React.Component {
         <div className={classes.container}>
           <PoseGroup>
             {this.props.bridges.map((bridge, i) => (
-              <BridgeItemPosed i={i} key={bridge.bridgeid}>
+              <BridgeItemPosed
+                className={classes.bridgeItem}
+                i={i}
+                key={bridge.bridgeid}
+              >
                 <BridgeItem bridge={bridge} />
               </BridgeItemPosed>
             ))}

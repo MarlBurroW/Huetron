@@ -16,6 +16,18 @@ const linkBridgeReducer = produce(
         }
 
         break;
+      case actions.REMOVE_LINKED_BRIDGE:
+        const bridgeToRemove = draft.linkedBridges.find(
+          bridge => bridge.bridgeid === action.bridgeToRemove.bridgeid
+        );
+        if (bridgeToRemove) {
+          draft.linkedBridges.splice(
+            draft.linkedBridges.indexOf(bridgeToRemove),
+            1
+          );
+        }
+
+        break;
       case actions.SET_DEFAULT_BRIDGE:
         draft.defaultBridgeId = action.authorizedBridge.bridgeid;
         break;

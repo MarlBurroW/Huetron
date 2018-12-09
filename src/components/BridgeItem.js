@@ -4,16 +4,21 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import Avatar from '@material-ui/core/Avatar';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
 import LockIcon from '@material-ui/icons/Lock';
+
+import { LockOpenOutline, LockOutline } from 'mdi-material-ui';
+
 import Chip from '@material-ui/core/Chip';
 import DoneIcon from '@material-ui/icons/Done';
 
 import * as linkBridgeActions from '../store/actions/linkBridgeActions';
+import * as unlinkBridgeActions from '../store/actions/unlinkBridgeActions';
 
 import image from '../images/bridge.jpg';
 
@@ -66,17 +71,24 @@ const BridgeItem = props => {
             <LockIcon />
           </IconButton>
           {bridge.username ? (
-            <Chip
-              label="Authorized"
-              onDelete={() => {}}
-              className={classes.chip}
-              color="primary"
-              deleteIcon={<DoneIcon />}
-              variant="outlined"
-            />
+            <IconButton
+              onClick={() => props.unlinkBridge(bridge)}
+              aria-label="Next"
+            >
+              <LockIcon />
+            </IconButton>
           ) : (
             ''
           )}
+          <Chip
+            avatar={
+              <Avatar>
+                {bridge.username ? <LockOpenOutline /> : <LockOutline />}
+              </Avatar>
+            }
+            color={bridge.username ? 'primary' : ''}
+            label={bridge.username ? 'Linked' : 'Not linked'}
+          />
         </div>
       </div>
       <CardMedia
@@ -94,8 +106,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    linkBridge: discoveredDridge =>
-      dispatch(linkBridgeActions.linkBridgeAction(discoveredDridge)),
+    unlinkBridge: bridge =>
+      dispatch(unlinkBridgeActions.unlinkBridgeAction(bridge)),
+    linkBridge: bridge => dispatch(linkBridgeActions.linkBridgeAction(bridge)),
   };
 };
 

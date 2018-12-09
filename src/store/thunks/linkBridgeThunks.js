@@ -6,7 +6,7 @@ export function linkBridgeThunk(discoveredDridge) {
     dispatch(actions.linkBridgeAction(discoveredDridge));
 
     setInterval(() => {
-      dispatch(actions.linkBridgeDecrementCountDown());
+      dispatch(actions.linkBridgeDecrementCountDownAction());
       console.log(linkBridgeSelectors.countDown(getState()));
     }, 1000);
   };

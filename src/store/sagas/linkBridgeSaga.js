@@ -1,4 +1,12 @@
-import { call, select, put, race, all, take } from 'redux-saga/effects';
+import {
+  call,
+  select,
+  put,
+  race,
+  all,
+  take,
+  takeEvery,
+} from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import * as linkBridgeActions from '../actions/linkBridgeActions';
 import * as settingsActions from '../actions/settingsActions';
@@ -18,10 +26,15 @@ export default function* linkBridgeSagaWatcher() {
   }
 }
 
+function* unlinkBridgeSaga(action) {
+  alert(JSON.stringify(action.bridgeToUnlink));
+  yield put(settingsActions.removeLinkedBridgeAction, action.bridgeToUnlink);
+}
+
 function* linkBridgeSaga(action) {
   while (true) {
     yield call(delay, 1000);
-    yield put(linkBridgeActions.linkBridgeDecrementCountDown());
+    yield put(linkBridgeActions.linkBridgeDecrementCountDownAction());
     const bridgeToLink = yield select(linkBridgeSelectors.bridgeToLinkSelector);
     const countDown = yield select(linkBridgeSelectors.countDownSelector);
     try {

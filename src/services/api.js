@@ -20,6 +20,13 @@ export function fetchBridgeInfo(bridge) {
   return apiCall('get', buildBridgeAPIUrl(bridge, 'config'));
 }
 
+export function unauthorizeBridge(bridge) {
+  return apiCall(
+    'delete',
+    buildBridgeAPIUrl(bridge, `config/whitelist/${bridge.username}`)
+  );
+}
+
 export function authorizeBridge(bridge) {
   return apiCall('post', buildBridgeAPIUrl(bridge), {
     devicetype: DEVICE_TYPE,
@@ -28,8 +35,8 @@ export function authorizeBridge(bridge) {
 
 export function buildBridgeAPIUrl(bridge, resource) {
   return `http://${bridge.internalipaddress}/api${
-    resource ? '/' + resource : ''
-  }`;
+    bridge.username ? '/' + bridge.username : ''
+  }${resource ? '/' + resource : ''}`;
 }
 
 export function apiCall(method, endpoint, payload) {
